@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalle del Análisis Microbiológico</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            position: relative;
+        }
+
+        .barra-superior {
+            background: linear-gradient(to bottom, #4a939c, #396c74);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100px;
+            position: fixed;
+            top: 0;
+            z-index: 999;
+        }
+
+        .barra-superior img {
+            max-height: 80px;
+            max-width: 100%;
+        }
+
+        .icon-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 150px;
+        }
+
+        .icon-button {
+            background-color: #4a939c;
+            border: none;
+            border-radius: 10px;
+            width: 200px;
+            height: 200px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+            color: white;
+            margin: 20px;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+
+        .icon-button:hover {
+            background-color: #396c74; 
+        }
+
+        .icon-button img {
+            width: 80px;
+            height: 80px;
+            margin: 20px;
+        }
+
+        .icon-button label {
+            display: block;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+            margin-bottom: 10px;
+        }
+
+        span {
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            background-color: #4a939c;
+            color: white;
+            border: none;
+            padding: 15px 20px; /* Ajusta el padding según el tamaño deseado */
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #396c74;
+        }
+
+        select {
+        padding: 12px;
+        border: 2px solid #4a939c;
+        border-radius: 8px;
+        width: 300px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        background-color: white; /* Ajusta el color de fondo según tus preferencias */
+        color: #060707;
+        cursor: pointer;
+    }
+
+    select:hover {
+        border-color: #396c74;
+    }
+
+    select:focus {
+        outline: none;
+        border-color: #396c74;
+        box-shadow: 0 0 5px rgba(57, 108, 116, 0.7);
+    }
+
+    .boton-menu-principal {
+        background-color: #4a939c;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-right: 1300px; /* Ajusta el espaciado entre el botón y los demás elementos */
+        margin-bottom: 10px; /* Ajusta el espacio hacia abajo */
+    }
+
+    .boton-menu-principal:hover {
+        background-color: #396c74;
+    }
+
+    </style>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+</head>
+<body>
+
+    <div class="barra-superior">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Firma_TEC.svg/1280px-Firma_TEC.svg.png" alt="Barra superior">
+    </div>
+
+    <br><br><br><br><br><br>
+    <h1>Resultado del Análisis Microbiológico</h1>
+    <label for="identificadorSelect">Seleccione Identificador del informe que acaba de crear, o seleccione alguno de su eleccion:</label>
+    <br><br>
+    <select id="identificadorSelect" onchange="cargarDetalle()">
+
+    </select>
+
+    <div id="detalleContainer">
+        <div id="contenidoCapturable">
+
+            <br><br>
+
+            <h2>Información General:</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Identificador de Muestra</th>
+                        <th>Unidad de medida(UM)</th>
+                        <th>Descripción de Muestra</th>
+                        <th>Usuario</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaInformacionGeneral">
+
+                </tbody>
+            </table>
+
+            <br><br>
+
+            <h2>Información de Resultados:</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Grupo</th>
+                        <th>Microorganismo identificado</th>
+                        <th>Factor de Conversión</th>
+                        <th>Dilución Empleada</th>
+                        <th>UFC/(UM)-1</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaInformacionResultados">
+
+                </tbody>
+            </table>
+        </div>
+
+        <br><br><br>
+        <button onclick="descargarInformacion()">Descargar Información</button>
+
+    </div>
+
+
+    <button class="boton-menu-principal" onclick="volverAlMenu()">Volver al Menú Principal</button>
+
+    <br><br><br>
+
+    <script>
+    let contenidoDetalleHTML = '';
+
+    function cargarDetalle() {
+        var identificadorSelect = document.getElementById("identificadorSelect");
+        var selectedIndex = identificadorSelect.selectedIndex;
+
+        if (selectedIndex !== -1) {
+            var selectedIdentificador = identificadorSelect.options[selectedIndex].value;
+
+
+            fetch(`/obtenerAnalisisDetalle?id=${selectedIdentificador}`)
+            .then(response => response.json())
+            .then(data => {
+
+                document.getElementById("tablaInformacionGeneral").innerHTML = "";
+                document.getElementById("tablaInformacionResultados").innerHTML = "";
+
+
+                data.forEach((item, index) => {
+                    if (index === 0) {
+
+                        var rowGeneral = document.getElementById("tablaInformacionGeneral").insertRow(-1);
+                        rowGeneral.insertCell(0).innerText = item.fecha;
+                        rowGeneral.insertCell(1).innerText = item.identificador_muestra;
+                        rowGeneral.insertCell(2).innerText = item.nombre_muestra;
+                        rowGeneral.insertCell(3).innerText = item.descripcion_muestra;
+                        rowGeneral.insertCell(4).innerText = item.nombre_completo;
+                    }
+
+
+                    var rowResultados = document.getElementById("tablaInformacionResultados").insertRow(-1);
+                    rowResultados.insertCell(0).innerText = item.grupo;
+                    rowResultados.insertCell(1).innerText = item.microorganismo;
+                    rowResultados.insertCell(2).innerText = item.factor_conversion;
+                    rowResultados.insertCell(3).innerText = item.dilucion_empleada;
+                    rowResultados.insertCell(4).innerText = item.ufc;
+                });
+            })
+            .catch(error => console.error('Error al cargar el detalle:', error));
+        }
+
+
+        fetch(`/obtenerTablasAsociadas?id=${selectedIdentificador}`)
+            .then(response => response.json())
+            .then(tablasData => {
+
+                mostrarTablas(tablasData);
+
+
+                capturarYDescargarPantalla();
+            })
+            .catch(error => console.error('Error al obtener las tablas asociadas:', error));
+    }
+
+    
+
+    function mostrarTablas(tablasData) {
+        var tablasContainer = document.getElementById("tablasContainer");
+        tablasContainer.innerHTML = "";
+
+        tablasData.forEach(tabla => {
+
+            var table = document.createElement("table");
+            table.innerHTML = `<caption>${tabla.nombre}</caption>`;
+
+            var headerRow = table.insertRow(0);
+            Object.keys(tabla.columnas).forEach(columna => {
+                var th = document.createElement("th");
+                th.textContent = columna;
+                headerRow.appendChild(th);
+            });
+
+            tabla.datos.forEach(fila => {
+                var row = table.insertRow(-1);
+                Object.values(fila).forEach(valor => {
+                    var cell = row.insertCell(-1);
+                    cell.textContent = valor;
+                });
+            });
+
+            tablasContainer.appendChild(table);
+        });
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var identificadorSelect = document.getElementById("identificadorSelect");
+
+
+        fetch('/obtenerAnalisis')
+            .then(response => response.json())
+            .then(data => {
+
+                data.forEach(item => {
+                    var option = document.createElement("option");
+                    option.value = item.identificador_muestra;
+                    option.text = `Identificador: ${item.identificador_muestra}   ||   Fecha: ${item.fecha}   ||   Usuario: ${item.nombre_completo}`;
+                    identificadorSelect.add(option);
+                });
+            })
+            .catch(error => console.error('Error al cargar los identificadores:', error));
+    });
+
+    function descargarInformacion() {
+        var contenidoCapturable = document.getElementById("contenidoCapturable");
+
+        html2canvas(contenidoCapturable).then(function(canvas) {
+            var link = document.createElement('a');
+            link.href = canvas.toDataURL();
+            link.download = 'informacion_microbiologica.png';
+            link.click();
+        });
+    }
+
+    function volverAlMenu() {
+        // Redirigir a la página de inicio
+        window.location.href = "/inicio";
+    }
+
+</script>
+</body>
+</html>

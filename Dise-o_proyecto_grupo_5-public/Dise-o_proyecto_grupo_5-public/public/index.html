@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Inicio de Sesión</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar {
+            background-color: #4a939c;
+            width: 150%;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar img {
+            max-height: 50%;
+            max-width: 50%;
+        }
+
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 150px);
+        }
+
+        .left-section {
+            flex: 1;
+        }
+
+        .right-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image {
+            max-width: 80%;
+            max-height: auto;
+        }
+
+        .login-form {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0px 0px 15px 0px #888888;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form div {
+            margin-bottom: 10px;
+        }
+
+        form label {
+            color: #4a939c;
+        }
+
+        form input[type="text"],
+        form input[type="password"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            text-align: center; 
+        }
+
+        button[type="submit"] {
+            background-color: #4a939c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4a939c;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Firma_TEC.svg/1280px-Firma_TEC.svg.png" alt="Logo" style="max-width: 50%; max-height: auto;">
+    </div>
+    <div class="content">
+        <div class="left-section">
+            
+            <img class="image" src="https://www.tec.ac.cr/hoyeneltec/sites/default/files/styles/teaser/public/media/img/main/laboratorios_tec_biotecnologia_05.jpg" alt="Imagen">
+        </div>
+        <div class="right-section">
+            <div class="login-form">
+                
+                <form id="loginForm" action="#">
+                    <div>
+                        <label for="username">Usuario:</label>
+                        <input id="username" type="text" placeholder="Ingrese su nombre de usuario">
+                    </div>
+                    <div>
+                        <label for="password">Contraseña:</label>
+                        <input id="password" type="password" placeholder="Ingrese su contraseña">
+                    </div>
+                    <div>
+                        <button type="submit">Iniciar sesión</button>
+                    </div>
+                </form>
+                <div>
+                    <a href="/nuevaCuenta">No tiene cuenta?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); 
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    window.location.href = "/inicio"; 
+                } else {
+                    alert(data.error); 
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>

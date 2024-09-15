@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulario de Reporte</title>
+    <link rel="stylesheet" type="text/css" href="pantalla1.css">
+
+    <style>
+
+            /* Estilo global para el cuerpo de la página */
+        body {
+            background-color: #ffffff; /* Fondo blanco */
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif; /* Fuente para el texto */
+        }
+
+        /* Estilo del encabezado */
+        .header {
+            height: 150px; /* Aumentamos la altura de la barra superior */
+            background-color: #4a939c; /* Color verde */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centramos la imagen horizontalmente */
+        }
+
+        .header img {
+            width: 350px; /* Ancho de la imagen */
+            height: 75; /* Altura automática para mantener la proporción */
+        }
+
+        /* Estilos del formulario */
+        form {
+            margin: 20px;
+            text-align: center;
+        }
+
+        form label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        form input[type="text"],
+        form input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+            margin-bottom: 10px;
+        }
+
+        form select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+            margin-bottom: 10px;
+        }
+
+        form input[type="submit"],
+
+        #addButton {
+
+            margin: auto;
+            float: center;
+            align-items: center;
+        }
+
+        #generateButton {
+            background-color: #000000;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            
+        }
+
+        #generalInfo,
+        #microorganismInfo {
+            border: 2px solid #4a939c;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        #generalInfo {
+            background-color: #4a939c;
+            width: 70%; /* Ajusta el ancho del cuadro según tus preferencias */
+            padding: 20px;
+            margin: 20px auto; /* Centra el cuadro horizontalmente */
+        }
+
+
+        #microorganismInfo {
+            background-color:#e9d09a; /* Otro color bonito */
+            width: 70%; /* Ajusta el ancho del cuadro según tus preferencias */
+            padding: 20px;
+            margin: 20px auto; /* Centra el cuadro horizontalmente */
+        }
+
+        #generateButton {
+            color: #000000;
+            margin: auto;
+            float: right;
+            
+            
+        }
+
+        /* Estilos para los campos de muestras */
+        input[name="identificadorMuestra"] {
+            border: 2px solid #4a939c;
+            padding: 20px;
+            float: right; 
+            padding: 10px;
+            text-align: lef; /* Cambiado a "left" para alinear el texto a la izquierda */ 
+            cursor: pointer;
+            padding: 20px;
+            float: left;
+            margin-top: -33px; /* Ajusta este valor según tus necesidades */
+            margin-right: 5px;
+        }
+
+        label[for="identificadorMuestra"] {
+            color: #000000;
+            float: left;
+            padding: 20px;
+            font-weight: bold;
+            margin-top: -45px; /* Ajusta este valor según tus necesidades */
+        }
+
+        input[name="nombreMuestra"] {
+            border: 2px solid #4a939c;
+            padding: 20px;
+            text-align: left;
+            cursor: pointer;
+            float: right;
+            margin-top: -45px; /* Ajusta este valor según tus necesidades */
+            margin-right: 70px; /* Ajusta este valor según tus necesidades */
+        }
+
+
+        label[for="nombreMuestra"] {
+            color: #000000;
+            padding: 20px;
+            font-weight: bold;
+            margin-top: 1px; /* Ajusta este valor según tus necesidades */
+            margin-right: -20px; /* Ajusta este valor con una unidad (por ejemplo, px) según tus necesidades */
+            text-align: left; /* Alinea el texto a la izquierda */
+            margin-left: 289px; 
+        }
+
+        input[name="descripcion"] {
+            border: 2px solid #4a939c;
+            padding: 20px; /* Puedes ajustar el padding según tus necesidades */
+            text-align: left;
+            cursor: pointer;
+            float: right;
+            margin-top: -45px; /* Ajusta este valor según tus necesidades */
+            margin-right: 70px; /* Ajusta este valor según tus necesidades */
+            width: 200px; /* Ajusta el ancho según tus necesidades */
+            height: 95px; /* Ajusta la altura según tus necesidades */
+            
+        }
+
+        label[for="descripcion"] {
+            color: #000000;
+            padding: 20px;
+            font-weight: bold;
+            margin-top: 1px; /* Ajusta este valor según tus necesidades */
+            margin-right: -20px; /* Ajusta este valor con una unidad (por ejemplo, px) según tus necesidades */
+            text-align: left; /* Alinea el texto a la izquierda */
+            margin-left: 360px; 
+        }
+
+
+
+        h2 {
+            color: rgb(0, 0, 0);
+            text-align: center;
+            border: 2px solid #000000;
+            padding: 10px 10px;
+            background-color: #FFFFFF;
+            font-size: 16px;
+            width: 98%;
+            margin: 0 auto 20px; /* Reduzca el margen superior a 0 para que el cuadro quede más arriba */
+        }
+
+
+        h1 {
+            color: rgb(0, 0, 0);
+            text-align: center;
+
+
+        }
+
+        input[name="fecha"] {
+            background-color: #FFFFFF;
+            color: #000000;
+            font-size: 16px;
+            border: 2px solid #000000;
+            padding: 10px;
+            text-align: left; /* Cambiado a "left" para alinear el texto a la izquierda */
+            font-weight: bold;
+            display: inline-block;
+            width: 150px;
+            cursor: pointer;
+            padding: 20px;
+            float: left;
+        }
+
+        label[for="fecha"] {
+            color: #000000;
+            float: left;
+            padding: 20px;
+            font-weight: bold;
+        
+        }
+
+
+        /* styles.css */
+        #grupo {
+            width: 200px;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 10px;
+            margin-left: -700px; /* Ajusta el margen a la izquierda */
+            cursor: pointer;
+        }
+
+        h3 {
+            font-weight: bold;
+            margin-left: -720px;
+
+        }
+
+        /* Estilo para la etiqueta 'Microorganismo' */
+        label[for="microorganismo"] {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000000; /* Cambia el color a tu elección */
+            position: relative;
+            top: -110px; /* Ajusta la posición vertical */
+        }
+
+        /* Estilo para el select 'microorganismo' */
+        #microorganismo {
+            width: 200px; /* Ancho personalizado */
+            padding: 8px;
+            border: 1px solid #ccc; /* Borde personalizado */
+            border-radius: 4px; /* Bordes redondeados */
+            font-size: 16px;
+            position: relative; /* Cambia la posición a relative, absolute, o fixed */
+            top: -96px; /* Ajusta la posición vertical */
+        }
+
+
+        /* Estilo para las opciones del select */
+        #microorganismo option {
+            font-size: 14px;
+            background-color: #f5f5f5; /* Color de fondo personalizado */
+            color: #333; /* Color de texto personalizado */
+            padding: 4px 8px;
+        
+        }
+
+        /* Espacio entre elementos */
+        br {
+            margin: 10px 0;
+        }
+
+
+        label[for="factorConversion"] {
+            font-weight: bold;
+            color: #000000;
+            float: left; /* Alinea a la izquierda */
+            position: relative; /* Habilita el posicionamiento relativo */
+            top: -50px; /* Ajusta la posición vertical según tus necesidades */
+        }
+
+
+        input[name="factorConversion"] { 
+            padding: 5px;
+            margin-bottom: 10px;
+            float: left; /* Para alinear a la izquierda */
+            margin-right: 10px; /* Puedes ajustar el valor según tus necesidades */
+            margin-top: -49px; /* Para mover hacia arriba */
+            margin-left: 126px; /* Ajusta este valor para mover a la derecha */
+        }
+
+        label[for="dilucionEmpleada"] {
+            font-weight: bold;
+            color: #000000;
+            float: left; /* Alinea a la izquierda */
+            position: relative; /* Habilita el posicionamiento relativo */
+            top: -20px; /* Ajusta la posición vertical según tus necesidades */
+        }
+
+
+        input[name="dilucionEmpleada"] { 
+            padding: 5px;
+            margin-bottom: 10px;
+            float: left; /* Para alinear a la izquierda */
+            margin-right: 10px; /* Puedes ajustar el valor según tus necesidades */
+            margin-top: -16px; /* Para mover hacia arriba */
+            margin-left: 146px; /* Ajusta este valor para mover a la derecha */
+        }
+
+        label {
+            display: block; /* Hace que cada etiqueta aparezca en una línea nueva */
+            margin-bottom: 5px; /* Añade espacio entre las etiquetas y los campos de entrada */
+        }
+
+        input {
+            margin-bottom: 10px; /* Añade espacio entre los campos de entrada */
+        }
+
+        /* Estilo para las etiquetas de los input */
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        #finishButton {
+            background-color: #4a939c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px;
+            float: right;
+        }
+
+        form input[type="submit"] {
+            background-color: white; /* Color de fondo */
+            color: 4a9c91; /* Color del texto */
+            padding: 12px 24px; /* Espaciado interno */
+            border: none; /* Sin borde */
+            border-radius: 5px; /* Bordes redondeados */
+            cursor: pointer;
+            font-size: 16px; /* Tamaño de fuente */
+            transition: background-color 0.3s ease; /* Transición suave en el cambio de color de fondo */
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #326673; /* Color de fondo al pasar el ratón */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Firma_TEC.svg/1280px-Firma_TEC.svg.png" alt="Logo TEC">
+    </div>
+
+    <h1>Formulario de Reporte</h1>
+  <!-- Sección "Información General" -->
+
+    <!-- Sección "Datos del Microorganismo" -->
+    <div id="microorganismInfo">
+  
+        <h2>Informacion general</h2>
+        <form id="microorganismForm" action="/submit" method="post">
+            
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="fecha" required>
+                <br><br>
+        
+                <label for="identificadorMuestra">Identificador de Muestra:</label>
+                <input type="text" id="identificadorMuestra" name="identificadorMuestra" required>
+                <br><br>
+        
+                <label for="nombreMuestra">Unidad de medida:</label>
+                <input type="text" id="nombreMuestra" name="nombreMuestra" required>
+                <br><br>
+
+                
+        
+                <label for="descripcion">Descripción:</label>
+                <input type="text" id="descripcion" name="descripcion" required>
+                <br><br><br><br><br><br>
+
+                <label for="nombre_usuario">Nombre de Usuario:</label>
+                <select id="nombre_usuario" name="nombre_usuario" required>
+                <!-- Options will be dynamically filled based on the users in the database -->
+                </select>
+                <br><br>
+
+                <h2>Informacion microorganismo</h2>
+
+                <br>
+        
+                <h3> Grupo</h3>
+                
+                
+                <select id="grupo" name="grupo" onchange="fillMicroorganisms()">
+                    <option value="hongos">Hongos</option>
+                    <option value="pseudo-hongos">Pseudo-hongos</option>
+                    <option value="levaduras">Levaduras</option>
+                    <option value="bacterias anaerobicas">Bacterias Anaeróbicas</option>
+                    <option value="bacterias aerobicas">Bacterias Aeróbicas</option>
+                    <option value="Actinomycetes">Actinomycetes</option>
+                </select>
+                <br><br>
+        
+                <label for="microorganismo">Microorganismo:</label>
+                <select id="microorganismo" name="microorganismo" required>
+                    <!-- Options will be dynamically filled based on the selected group -->
+                </select>
+                <br><br><br>
+        
+                <label for="factorConversion">Factor de Conversión:</label>
+                <input type="number" id="factorConversion" name="factorConversion" required>
+                <br><br>
+        
+                <label for="dilucionEmpleada">Dilución Empleada:</label>
+                <input type="number" id="dilucionEmpleada" name="dilucionEmpleada" required>
+                <br><br>
+        
+                <label for="r1">R1:</label>
+                <input type="number" id="r1" name="r1" required>
+                <br><br>
+        
+                <label for="r2">R2:</label>
+                <input type="number" id="r2" name="r2" required>
+                <br><br>
+        
+                <label for="r3">R3:</label>
+                <input type="number" id="r3" name="r3" required>
+                <br><br>
+        
+                <br><br>
+                <input type="submit" value="Agregar">
+        </form>
+
+    </div>
+
+    <button id="finishButton">Acabar y Generar</button>
+    
+    <script>
+        function fillMicroorganisms() {
+            var group = document.getElementById("grupo").value;
+            var microorganismoSelect = document.getElementById("microorganismo");
+
+            // Clear previous options
+            microorganismoSelect.innerHTML = "";
+
+            // Fetch microorganisms based on the selected group from the server
+            fetch(`/getMicroorganisms?group=${group}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Add new options based on the fetched microorganisms
+                    data.forEach(microorganismo => {
+                        var option = document.createElement("option");
+                        option.text = microorganismo.nombre;
+                        microorganismoSelect.add(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching microorganisms:', error));
+             
+        }
+
+        function addOptionsToMicroorganismo(options) {
+            var microorganismoSelect = document.getElementById("microorganismo");
+            for (var i = 0; i < options.length; i++) {
+                var option = document.createElement("option");
+                option.text = options[i];
+                microorganismoSelect.add(option);
+            }
+        }
+
+        function fillUsers() {
+            var userSelect = document.getElementById("nombre_usuario");
+
+            // Limpiar opciones anteriores
+            userSelect.innerHTML = "";
+
+            // Obtener usuarios desde el servidor
+            fetch(`/getUsers`)
+                .then(response => response.json())
+                .then(data => {
+                // Agregar nuevas opciones basadas en los usuarios obtenidos
+                data.forEach(user => {
+                    var option = document.createElement("option");
+                    option.text = user.nombre_completo;
+                    userSelect.add(option);
+                });
+                })
+                .catch(error => console.error('Error fetching users:', error));
+        }
+
+        document.getElementById("microorganismForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evita el envío del formulario para manejarlo con JavaScript
+
+            // Obtener los valores del formulario
+            const formData = new FormData(event.target);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            // Enviar los datos al servidor
+            fetch("/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Si la respuesta es exitosa, mostrar la alerta de éxito
+                    alert("Agregado");
+                } else {
+                    // Si la respuesta es un error, mostrar la alerta con el mensaje de error
+                    response.json().then(errorData => {
+                        alert(`Error al agregar: ${errorData.error}`);
+                    });
+                }
+            })
+            .catch(error => {
+                // Si hay un error en la conexión, mostrar un mensaje genérico de error
+                console.error("Error al enviar los datos:", error);
+                alert("Error al agregar. Por favor, inténtelo de nuevo.");
+            });
+        });
+
+        document.getElementById("finishButton").addEventListener("click", function() {
+            // Redirigir a la página "/inicio/informe/control"
+            window.location.href = "/inicio/analisis/resultado";
+        });
+
+
+        fillUsers();
+    </script>
+</body>
+</html>

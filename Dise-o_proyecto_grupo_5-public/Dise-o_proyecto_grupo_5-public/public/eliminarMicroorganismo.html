@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalle del Análisis Microbiológico</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            position: relative;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .barra-superior {
+            background: linear-gradient(to bottom, #4a939c, #396c74);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100px;
+            position: fixed;
+            top: 0;
+            z-index: 999;
+        }
+
+        .barra-superior img {
+            max-height: 80px;
+            max-width: 100%;
+        }
+
+        h1 {
+            margin-top: 50px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        div {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        select, input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #4a939c;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #396c74;
+        }
+    </style>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+</head>
+<body>
+
+    <div class="barra-superior">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Firma_TEC.svg/1280px-Firma_TEC.svg.png" alt="Barra superior">
+    </div>
+
+    
+
+    <br><br><br>
+
+    <div>
+        <br><br><br>
+        <h1>Agregar Microorganismo</h1>
+        <br><br><br>
+        <label for="grupo">Grupo:</label>
+        <select id="grupo" name="grupo" onchange="cargarMicroorganismos()">
+            <option value="hongos">Hongos</option>
+            <option value="pseudo-hongos">Pseudo-hongos</option>
+            <option value="levaduras">Levaduras</option>
+            <option value="bacterias anaerobicas">Bacterias Anaeróbicas</option>
+            <option value="bacterias aerobicas">Bacterias Aeróbicas</option>
+            <option value="Actinomycetes">Actinomycetes</option>
+        </select>
+    </div>
+    
+    <label for="microorganismo">Microorganismo:</label>
+    <select id="microorganismo" name="microorganismo"></select>
+
+    <!-- Agrega el botón de eliminar -->
+    <button onclick="eliminarMicroorganismo()">Eliminar Microorganismo</button>
+    
+
+    <script>
+        function cargarMicroorganismos() {
+            const grupoSeleccionado = document.getElementById('grupo').value;
+            const microorganismoDropdown = document.getElementById('microorganismo');
+    
+            // Hacer una solicitud al servidor para obtener los microorganismos del grupo seleccionado
+            fetch(`/getMicroorganisms?group=${grupoSeleccionado}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Limpiar el dropdown actual
+                    microorganismoDropdown.innerHTML = '';
+    
+                    // Llenar el dropdown con los nuevos microorganismos
+                    data.forEach(microorganismo => {
+                        const option = document.createElement('option');
+                        option.value = microorganismo.nombre;
+                        option.text = microorganismo.nombre;
+                        microorganismoDropdown.appendChild(option);
+                    });
+    
+                    // Mostrar el microorganismo seleccionado
+                    mostrarMicroorganismoSeleccionado();
+                })
+                .catch(error => {
+                    console.error('Error al cargar microorganismos:', error);
+                });
+        }
+    
+        function mostrarMicroorganismoSeleccionado() {
+            const microorganismoSeleccionado = document.getElementById('microorganismo').value;
+            document.getElementById('nombreMicroorganismo').value = microorganismoSeleccionado;
+        }
+    
+        // Añade esta función al script
+        function cargarMicroorganismos() {
+            const grupo = document.getElementById('grupo').value;
+            const microorganismoSelect = document.getElementById('microorganismo');
+
+            // Limpia el combo box antes de cargar nuevos elementos
+            microorganismoSelect.innerHTML = "";
+
+            // Realiza una petición para obtener los microorganismos según el grupo seleccionado
+            fetch(`/getMicroorganisms?group=${encodeURIComponent(grupo)}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Agrega las opciones al combo box
+                    data.forEach(microorganismo => {
+                        const option = document.createElement('option');
+                        option.value = microorganismo.nombre;
+                        option.text = microorganismo.nombre;
+                        microorganismoSelect.add(option);
+                    });
+                })
+                .catch(error => console.error('Error al obtener microorganismos:', error));
+        }
+
+        // Añade esta función para eliminar el microorganismo seleccionado
+        function eliminarMicroorganismo() {
+            const grupo = document.getElementById('grupo').value;
+            const microorganismo = document.getElementById('microorganismo').value;
+
+            if (microorganismo.trim() !== "") {
+                fetch('/eliminarMicroorganismo', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ grupo, microorganismo }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        // Puedes realizar acciones adicionales después de la eliminación exitosa si es necesario
+                    })
+                    .catch((error) => {
+                        console.error('Error al eliminar microorganismo:', error);
+                        alert('Error al eliminar microorganismo');
+                    });
+            } else {
+                alert('Seleccione un microorganismo válido.');
+            }
+        }
+
+    </script>
+
+</body>
+</html>

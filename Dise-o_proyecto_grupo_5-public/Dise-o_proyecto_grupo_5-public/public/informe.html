@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ventana Principal</title>
+    <style>
+        body {
+            background-color: #ffffff; 
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            height: 150px; 
+            background-color: #4a939c;
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+        }
+
+        .header img {
+            max-height: 30%; 
+            max-width: 30%; 
+            margin-right: 20px; 
+        }
+
+        h1 {
+            color: #ffffff; 
+        }
+
+        .content {
+            text-align: center; 
+            padding: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .ver-informes-button,
+        .eliminar-informes-button {
+            background-color: #4a939c;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .ver-informes-button:hover,
+        .eliminar-informes-button:hover {
+            background-color: #396c74;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Firma_TEC.svg/1280px-Firma_TEC.svg.png" alt="Logo TEC">
+    </div>
+
+    <div class="content">
+        <!-- Botones añadidos -->
+        <a href="/inicio/informe/historial" class="ver-informes-button">Ver Informes Creados</a>
+        <a href="/inicio/informe/eliminarInforme" class="eliminar-informes-button">Eliminar Informes</a>
+    </div>
+</body>
+</html>

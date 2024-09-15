@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas de Informes por Semestre</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-size: 16px; /* Ajusta el tamaño de la fuente del cuerpo */
+        }
+
+        h1 {
+            font-size: 24px; /* Ajusta el tamaño de la fuente del encabezado h1 */
+        }
+
+        div {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4a939c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .chart-labels {
+            font-size: 1600px; /* Tamaño de las letras en el eje X (mes y año) */
+            font-weight: bold;
+            color: #333;
+        }
+
+        .chart-title {
+            font-size: 1800px; /* Tamaño de la letra del título del conjunto de datos */
+            font-weight: bold;
+            color: #333;
+        }
+        
+    </style>
+</head>
+<body>
+
+
+    <h1>Cantidad de Informes por mes de realización</h1>
+
+    <div>
+        <label for="fechaInicio">Fecha de inicio:</label>
+        <input type="date" id="fechaInicio" required>
+
+        <label for="fechaFin">Fecha de fin:</label>
+        <input type="date" id="fechaFin" required>
+
+        <button onclick="obtenerEstadisticasPorIntervalo()">Mostrar Estadísticas</button>
+
+        <!-- Agregar botón de descarga -->
+        <button onclick="descargarGrafico()">Descargar Gráfico</button>
+    </div>
+
+    <canvas id="estadisticasChart" width="800" height="400"></canvas>
+
+    <script>
+        // Configuración inicial del gráfico
+        const ctx = document.getElementById('estadisticasChart').getContext('2d');
+        let estadisticasChart;
+
+        // Función para obtener datos desde la base de datos y procesarlos
+        async function obtenerEstadisticasPorMesConAnio(fechaInicio, fechaFin) {
+            try {
+                const url = `/obtenerEstadisticasPorMesConAnio?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
+                const response = await fetch(url);
+                const datosPorMesConAnio = await response.json();
+
+                // Actualizar el gráfico existente o crear uno nuevo
+                if (estadisticasChart) {
+                    estadisticasChart.data.labels = datosPorMesConAnio.map(data => data.mes_anio);
+                    estadisticasChart.data.datasets[0].data = datosPorMesConAnio.map(data => data.cantidad);
+                    estadisticasChart.update(); // Actualizar el gráfico existente
+                } else {
+                    estadisticasChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: datosPorMesConAnio.map(data => data.mes_anio),
+                            datasets: [{
+                                label: 'Cantidad de Informes por Mes con Año (Los meses que no aparezcan, son meses en los que no se hicieron informes)',
+                                data: datosPorMesConAnio.map(data => data.cantidad),
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1,
+                                fontSize: 16 // Tamaño de la letra del conjunto de datos
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function (value, index, values) {
+                                            return value;
+                                        },
+                                        font: {
+                                            size: 16 // Tamaño de las letras en el eje Y
+                                        }
+                                    }
+                                },
+                                x: {
+                                    ticks: {
+                                        font: {
+                                            size: 16 // Tamaño de las letras en el eje X
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error al obtener estadísticas por mes con año:', error);
+            }
+        }
+
+        // Función para obtener estadísticas por intervalo
+        function obtenerEstadisticasPorIntervalo() {
+            const fechaInicio = document.getElementById('fechaInicio').value;
+            const fechaFin = document.getElementById('fechaFin').value;
+
+            obtenerEstadisticasPorMesConAnio(fechaInicio, fechaFin);
+        }
+
+        // Función para descargar el gráfico como imagen
+        function descargarGrafico() {
+            html2canvas(document.getElementById('estadisticasChart'), {
+                backgroundColor: 'white' // Fondo blanco
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = 'estadisticas.png';
+                link.click();
+            });
+        }
+
+        // Llamar a la función para cargar el gráfico con todas las estadísticas
+        obtenerEstadisticasPorMesConAnio();
+    </script>
+
+</body>
+</html>

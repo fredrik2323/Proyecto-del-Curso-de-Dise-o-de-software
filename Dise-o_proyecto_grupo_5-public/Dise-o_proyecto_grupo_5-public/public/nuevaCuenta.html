@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registro</title>
+    <style>
+        /* Estilos generales para centrar texto */
+        body, h1, form, label, input, a {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif; /* Fuente Montserrat */
+        }
+
+        /* Estilos para la barra superior */
+        .barra-superior {
+            background: linear-gradient(to bottom, #4a939c, #396c74); /* Degradado de fondo */
+            width: 100%;
+            height: 150px;
+            text-align: center;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .barra-superior img {
+            max-height: 50%;
+            max-width: 50%;
+            object-fit: contain;
+        }
+
+        /* Estilo para el contenido principal */
+        .contenido-principal {
+            margin-top: 150px; /* Ajuste del margen para dejar espacio debajo de la barra */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 150px); /* Establece la altura del contenido principal */
+            background: linear-gradient(to bottom, #f4f4f4, #d1d1d1); /* Degradado de fondo */
+        }
+
+        /* Estilos para el formulario con textura de microorganismos */
+        .formulario {
+            background-color: #f4f4f4; /* Color de fondo del rectángulo */
+            border: 1px solid #ccc; /* Borde del rectángulo */
+            padding: 20px; /* Espacio interior del rectángulo */
+            border-radius: 10px; /* Bordes redondeados */
+            width: 300px; /* Ancho del rectángulo */
+            box-shadow: 0px 0px 15px 0px #888888; /* Sombra */
+            background-image: url('https://www.transparenttextures.com/patterns/anodized-aluminum.png'); /* Textura de fondo elegante */
+        }
+
+        .formulario h1 {
+            color: #4a939c; /* Color del título */
+            font-size: 24px; /* Tamaño del título */
+            margin-bottom: 20px;
+        }
+
+        form label,
+        form input {
+            margin-bottom: 15px;
+            display: block;
+            width: 100%; /* Ancho completo para etiquetas y campos de entrada */
+        }
+
+        form input[type="submit"] {
+            background-color: #4a939c; /* Color del botón */
+            color: white; /* Color del texto del botón */
+            border: none;
+            padding: 10px 20px; /* Espacio interior del botón */
+            border-radius: 5px; /* Bordes redondeados del botón */
+            cursor: pointer; /* Cambio de cursor al pasar el ratón por encima */
+        }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Barra Superior con imagen -->
+    <div class="barra-superior">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Firma_TEC.svg/1280px-Firma_TEC.svg.png" alt="Logo del TEC">
+    </div>
+
+    <div class="contenido-principal">
+        <div class="formulario">
+            <h1>Registro</h1> <!-- Título -->
+            <form id="registerForm" action="/register" method="post">
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" name="usuario" required>
+                
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" required>
+                
+                <label for="confirmar_contrasena">Confirmar contraseña:</label>
+                <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" required>
+                
+                <label for="nombre_completo">Nombre completo:</label>
+                <input type="text" id="nombre_completo" name="nombre_completo" required>
+                
+                <input type="submit" value="Crear cuenta">
+            </form>
+            
+            <a href="/">Regresar</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Evitar el envío predeterminado del formulario
+            
+            const usuario = document.getElementById('usuario').value;
+            const contrasena = document.getElementById('contrasena').value;
+            const nombre_completo = document.getElementById('nombre_completo').value;
+
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ usuario, contrasena, nombre_completo})
+                });
+
+                if (response.ok) {
+                    alert('Cuenta creada exitosamente');
+                    window.location.href = "/"; // Redirigir a la página de inicio de sesión
+                } else {
+                    const data = await response.json();
+                    alert(data.error); // Mostrar mensaje de error si hay algún problema en la creación de la cuenta
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalle del Análisis Microbiológico</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            position: relative;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .barra-superior {
+            background: linear-gradient(to bottom, #4a939c, #396c74);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100px;
+            position: fixed;
+            top: 0;
+            z-index: 999;
+        }
+
+        .barra-superior img {
+            max-height: 80px;
+            max-width: 100%;
+        }
+
+        h1 {
+            margin-top: 50px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        div {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        select, input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #4a939c;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #396c74;
+        }
+    </style>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+</head>
+<body>
+
+    <div class="barra-superior">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Firma_TEC.svg/1280px-Firma_TEC.svg.png" alt="Barra superior">
+    </div>
+
+    <h1>Agregar Microorganismo</h1>
+
+    <br><br><br>
+
+    <div>
+        <h1>Agregar Microorganismo</h1>
+        <label for="grupo">Grupo:</label>
+        <select id="grupo" name="grupo">
+            <option value="hongos">Hongos</option>
+            <option value="pseudo_hongos">Pseudo-hongos</option>
+            <option value="levaduras">Levaduras</option>
+            <option value="bacterias anerobicas">Bacterias anaerobicas</option>
+            <option value="bacterias aerobicas">Bacterias aerobicas</option>
+            <option value="Actinomycetes">Actinomycetes</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="nombreMicroorganismo">Nombre del Microorganismo:</label>
+        <input type="text" id="nombreMicroorganismo" name="nombreMicroorganismo">
+    </div>
+
+    <button onclick="agregarMicroorganismo()">Agregar Microorganismo</button>
+
+
+    <script>
+        function agregarMicroorganismo() {
+        const grupo = document.getElementById('grupo').value;
+        const nombreMicroorganismo = document.getElementById('nombreMicroorganismo').value;
+
+        if (nombreMicroorganismo.trim() !== "") {
+            fetch('/addMicroorganismo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ grupo, nombreMicroorganismo }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    // Puedes realizar acciones adicionales después de la inserción exitosa si es necesario
+                })
+                .catch((error) => {
+                    console.error('Error al agregar microorganismo:', error);
+                    alert('Error al agregar microorganismo');
+                });
+        } else {
+            alert('Ingrese un nombre de microorganismo válido.');
+        }
+    }
+    </script>
+
+</body>
+</html>
